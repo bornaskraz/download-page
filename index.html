@@ -5,7 +5,170 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MoneyTracker App | အနာဂတ် ငွေကြေးစီမံခန့်ခွဲမှု</title>
     <style>
-        /* CSS Code အပိုင်းကို အောက်မှာ ကြည့်ပါ */
+       :root {
+    /* Gradient Color များကို သတ်မှတ်ခြင်း */
+    --main-gradient: linear-gradient(90deg, #8A2BE2, #00BFFF); /* Blue Violet to Deep Sky Blue */
+    --hover-gradient: linear-gradient(90deg, #9932CC, #1E90FF); /* Slightly different shade for hover */
+    --bg-color: #121212; /* Dark Background */
+    --text-color: #f0f0f0; /* Light Text */
+    --secondary-color: #777;
+    --border-color: #333;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Header & Logo */
+.header {
+    width: 100%;
+    padding: 25px 0;
+    text-align: center;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.app-icon {
+    width: 35px;
+    height: 35px;
+    filter: invert(100%); /* Icon ကို အဖြူရောင်ပြောင်းရန် */
+    margin-right: 12px;
+}
+
+.app-name {
+    font-size: 1.8rem;
+    font-weight: 800;
+}
+
+/* Gradient Text Effect */
+.gradient-text {
+    background: var(--main-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent; /* Text ကို ဖျက်ပြီး Background Gradient ကို မြင်ရအောင် */
+}
+
+/* Hero Section */
+.hero-section {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.content-wrapper {
+    max-width: 700px;
+}
+
+h1 {
+    font-size: 3rem;
+    font-weight: 900;
+    margin-bottom: 20px;
+    letter-spacing: -1px; /* ပိုမိုခေတ်မီစေရန် */
+}
+
+.tagline {
+    font-size: 1.2rem;
+    color: var(--secondary-color);
+    margin-bottom: 50px;
+}
+
+/* Download Button */
+.download-container {
+    margin-bottom: 40px;
+}
+
+.download-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--main-gradient);
+    color: white;
+    padding: 18px 40px;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: 700;
+    border-radius: 12px;
+    transition: background 0.3s, opacity 0.3s, transform 0.2s;
+    margin: 0 auto;
+    max-width: 400px;
+    box-shadow: 0 10px 30px rgba(138, 43, 226, 0.3); /* Gradient နဲ့လိုက်တဲ့ Shadow */
+}
+
+.download-btn:hover:not(.disabled-btn) {
+    background: var(--hover-gradient);
+    transform: translateY(-2px); /* Clickable ဖြစ်ကြောင်းပြရန် */
+}
+
+.btn-icon {
+    width: 25px;
+    height: 25px;
+    filter: invert(100%);
+    margin-right: 15px;
+}
+
+.disabled-btn {
+    background: #444; /* မရသေးရင် အမဲရောင်နုနု */
+    cursor: not-allowed;
+    opacity: 0.6;
+    box-shadow: none;
+}
+
+.version-text {
+    margin-top: 15px;
+    font-size: 0.95rem;
+    color: var(--secondary-color);
+}
+
+/* Features List */
+.features {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 50px;
+}
+
+.feature-item {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-color);
+    padding: 10px 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background-color: #1e1e1e; /* Feature background */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2.2rem;
+    }
+    .features {
+        flex-direction: column;
+        gap: 15px;
+    }
+    .download-btn {
+        font-size: 1.1rem;
+        padding: 15px 30px;
+    }
+}
     </style>
 </head>
 <body>
