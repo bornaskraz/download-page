@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoneyTracker App | ငွေကြေးစီမံခန့်ခွဲမှု</title>
+    <style>
+      body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff; /* ဖြူစင်တဲ့ နောက်ခံ */
+    color: #333;
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Header & Logo */
+.header {
+    width: 100%;
+    padding: 20px 0;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.app-icon {
+    width: 30px; /* Icon အရွယ်အစား */
+    height: 30px;
+    margin-right: 10px;
+}
+
+.app-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #000;
+}
+
+/* Hero Section */
+.hero-section {
+    flex-grow: 1; /* စာမျက်နှာအလယ်မှာ နေရာယူရန် */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.content-wrapper {
+    max-width: 600px;
+}
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #1a1a1a;
+    margin-bottom: 15px;
+}
+
+.tagline {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 40px;
+}
+
+/* Download Button */
+.download-container {
+    margin-bottom: 30px;
+}
+
+.download-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #000; /* Modern look အတွက် အမဲရောင် */
+    color: white;
+    padding: 15px 30px;
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 8px; /* အဝိုင်းပုံစံ အနည်းငယ် */
+    transition: background-color 0.3s, opacity 0.3s;
+    margin: 0 auto; /* အလယ်ချရန် */
+    max-width: 350px;
+}
+
+.download-btn:hover:not(.disabled-btn) {
+    background-color: #333;
+}
+
+.download-btn img {
+    width: 20px;
+    height: 20px;
+    filter: invert(100%); /* icon ကို အဖြူရောင်ပြောင်းရန် */
+    margin-right: 10px;
+}
+
+.disabled-btn {
+    background-color: #ccc;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.version-text {
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: #888;
+}
+
+/* Features List */
+.features {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 40px;
+}
+
+.features p {
+    font-size: 1rem;
+    color: #444;
+    margin: 0;
+    font-weight: 500;
+    text-align: left;
+    padding-left: 20px;
+    position: relative;
+}
+
+.features p::before {
+    content: ''; /* CSS မှာ Check mark ပုံစံမသုံးတော့ဘဲ text မှာပဲ ✅ သုံးလိုက်ပါမယ် */
+    /* ဒါပေမယ့် ပိုပြီး Unique ဖြစ်အောင် နောက်ခံအရောင်မပါတဲ့ Check mark icon ကို အသုံးပြုနိုင်ပါတယ် */
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    h1 {
+        font-size: 2rem;
+    }
+    .download-btn {
+        font-size: 1rem;
+        padding: 12px 20px;
+    }
+}
+    </style>
+    </head>
+<body>
+
+    <header class="header">
+        <div class="logo-container">
+            <img src="icon.jpg" alt="Money Tracker Logo" class="app-icon">
+            <span class="app-name">Money Tracker</span>
+        </div>
+    </header>
+
+    <main class="hero-section">
+        <div class="content-wrapper">
+            <h1>ပိုက်ဆံကို ထိန်းချုပ်ပါ။ ဘဝကို စီမံပါ။</h1>
+            <p class="tagline">ရိုးရှင်း၊ လုံခြုံပြီး အစွမ်းထက်တဲ့ ငွေဝင်ငွေထွက် မှတ်တမ်းတင်ခြင်းစနစ်။</p>
+            
+            <div class="download-container">
+                <a href="#" id="downloadBtn" class="download-btn disabled-btn">
+                    <img src="icon.jpg" alt="Download Icon">
+                    Android APK Download (မကြာမီ)
+                </a>
+                <p class="version-text">Version 1.0.0 (Coming Soon)</p>
+            </div>
+            
+            <div class="features">
+                <p>✅ ရှင်းလင်းပြတ်သားသော အစီရင်ခံစာများ</p>
+                <p>✅ မြန်ဆန်သော ငွေစာရင်းထည့်သွင်းမှု</p>
+                <p>✅ လုံခြုံစိတ်ချရသော ဒေတာကာကွယ်မှု</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // APK file ရလာတဲ့အခါ ဒီ script ကို ဖျက်ပြီး HTML link ကိုပဲ ပြင်နိုင်ပါတယ်။
+        document.addEventListener('DOMContentLoaded', function() {
+            const btn = document.getElementById('downloadBtn');
+            btn.addEventListener('click', function(e) {
+                if (btn.classList.contains('disabled-btn')) {
+                    e.preventDefault();
+                    alert('Download Link ကို မကြာမီ ဖွင့်ပေးပါမည်။');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
