@@ -3,168 +3,192 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Money Tracker</title>
+    <title>Money Tracker | Smart Finance</title>
     <style>
-        /* --- DESIGN TOKENS --- */
+        /* --- THEME VARIABLES --- */
         :root {
-            --bg-color: #f7f7f8; /* မျက်လုံးအေးစေမယ့် မီးခိုးရောင်ဖျော့ */
-            --card-bg: #ffffff;
-            --primary-text: #111111;
-            --secondary-text: #666666;
-            --accent-color: #2D2D2D; /* ခလုတ်အရောင် (Soft Black) */
-            --shadow: 0 20px 40px -10px rgba(0,0,0,0.08); /* သဘာဝကျတဲ့ အရိပ် */
+            --bg-color: #0a0a0a;       /* အမဲရောင် အစစ် */
+            --card-bg: #171717;        /* ကတ်ပြားအရောင် (အမဲဖျော့) */
+            --primary-color: #10B981;  /* ငွေကြေးဆိုင်ရာ အစိမ်းရောင် */
+            --text-main: #ffffff;      /* စာလုံးအဖြူ */
+            --text-muted: #a3a3a3;     /* စာလုံးမီးခိုး */
+            --border-color: #262626;   /* ဘောင်အရောင် */
         }
 
         body {
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background-color: var(--bg-color);
-            color: var(--primary-text);
+            color: var(--text-main);
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Ambient Glow Effect (နောက်ခံ အလင်းရောင်မှိန်မှိန်) */
+        .glow-effect {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, rgba(0,0,0,0) 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            pointer-events: none;
         }
 
         /* --- MAIN CARD --- */
         .card {
             background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
             width: 100%;
-            max-width: 420px; /* ဖုန်းရော ကွန်ပျူတာပါ ကြည့်ကောင်းမည့် ဆိုဒ် */
-            padding: 60px 40px;
-            border-radius: 30px; /* Modern Rounded Corner */
-            box-shadow: var(--shadow);
+            max-width: 400px;
+            padding: 50px 30px;
+            border-radius: 24px;
             text-align: center;
-            transition: transform 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-5px); /* Mouse တင်ရင် အပေါ်နည်းနည်းကြွသွားမယ် */
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            position: relative;
         }
 
         /* --- LOGO --- */
-        .logo-container {
+        .app-icon {
             width: 80px;
             height: 80px;
-            margin: 0 auto 30px auto;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-        }
-
-        .app-icon {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+            border-radius: 18px; /* App Icon ပုံစံ */
+            margin-bottom: 25px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+            object-fit: cover; /* ပုံမပျက်အောင် ထိန်းခြင်း */
         }
 
         /* --- TYPOGRAPHY --- */
         h1 {
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: 700;
             margin: 0 0 10px 0;
             letter-spacing: -0.5px;
         }
 
-        p {
-            font-size: 1.05rem;
-            color: var(--secondary-text);
-            line-height: 1.6;
-            margin: 0 0 40px 0;
+        .tagline {
+            color: var(--primary-color);
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            display: block;
         }
 
-        /* --- BUTTON (UNIQUE PILL SHAPE) --- */
-        .download-btn {
+        p.description {
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 40px;
+        }
+
+        /* --- FEATURES GRID --- */
+        .features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 40px;
+            text-align: left;
+        }
+
+        .feature-item {
+            background: #202020;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            color: #d4d4d4;
             display: flex;
             align-items: center;
-            justify-content: center;
-            background-color: var(--accent-color);
-            color: #ffffff;
+            gap: 10px;
+        }
+
+        .check-icon {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        /* --- DOWNLOAD BUTTON --- */
+        .download-btn {
+            display: block;
+            width: 100%;
+            background-color: var(--primary-color);
+            color: #000; /* အစိမ်းပေါ်မှာ အမဲစာလုံးက ပိုထင်ရှားပါတယ် */
+            padding: 16px 0;
+            border-radius: 12px;
+            font-weight: 700;
             text-decoration: none;
-            padding: 18px 30px;
-            border-radius: 50px; /* လုံးဝန်းသော Pill Shape */
-            font-weight: 600;
-            font-size: 1rem;
-            transition: all 0.2s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            font-size: 1.1rem;
+            transition: transform 0.2s, background-color 0.2s;
+            box-sizing: border-box;
         }
 
         .download-btn:hover {
-            background-color: #000000;
-            transform: scale(1.02);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            background-color: #34d399; /* Hover လုပ်ရင် အရောင်လင်းမယ် */
+            transform: translateY(-2px);
         }
 
         .download-btn.disabled {
-            background-color: #e5e5e5;
-            color: #a0a0a0;
+            background-color: #333;
+            color: #666;
             cursor: not-allowed;
-            box-shadow: none;
-        }
-        
-        .btn-icon {
-            width: 20px;
-            height: 20px;
-            filter: invert(1); /* အမဲ icon ကို အဖြူပြောင်းရန် */
-            margin-right: 10px;
+            pointer-events: none; /* Click လို့မရအောင် ပိတ်ခြင်း */
         }
 
         /* --- FOOTER --- */
         .footer {
-            margin-top: 30px;
-            font-size: 0.85rem;
-            color: #ccc;
+            margin-top: 25px;
+            font-size: 0.8rem;
+            color: #525252;
         }
 
-        /* --- RESPONSIVE --- */
         @media (max-width: 480px) {
             .card {
-                max-width: 90%;
-                padding: 40px 20px;
+                border: none;
+                background: transparent;
+                box-shadow: none;
             }
-            h1 { font-size: 1.75rem; }
         }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <div class="logo-container">
-            <img src="icon.jpg" alt="App Icon" class="app-icon">
-        </div>
+    <div class="glow-effect"></div>
 
-        <h1>Money Tracker</h1>
-        <p>
-            ငွေကြေးစီမံမှုအတွက် အရိုးရှင်းဆုံးအဖြေ။<br>
-            မြန်ဆန်၊ လုံခြုံပြီး စိတ်ချရသည်။
+    <div class="card">
+        <img src="icon.jpg" alt="Money Tracker Logo" class="app-icon">
+
+        <span class="tagline">Finance Made Simple</span>
+        <h1>ငွေကြေးစီမံမှု မိတ်ဖက်</h1>
+        
+        <p class="description">
+            ဝင်ငွေထွက်ငွေများကို စနစ်တကျ မှတ်တမ်းတင်ပြီး 
+            သင့်ဘဏ္ဍာရေး အနာဂတ်ကို တည်ဆောက်ပါ။
         </p>
 
-        <a href="#" id="downloadBtn" class="download-btn disabled">
-            <img src="icon.jpg" alt="" class="btn-icon">
-            Download for Android
+        <div class="features">
+            <div class="feature-item"><span class="check-icon">✓</span> လွယ်ကူသော မှတ်တမ်း</div>
+            <div class="feature-item"><span class="check-icon">✓</span> ရှင်းလင်းသော စာရင်း</div>
+            <div class="feature-item"><span class="check-icon">✓</span> Data လုံခြုံမှု</div>
+            <div class="feature-item"><span class="check-icon">✓</span> Offline အသုံးပြုနိုင်</div>
+        </div>
+
+        <a href="#" class="download-btn disabled">
+            Download APK (Coming Soon)
         </a>
 
         <div class="footer">
-            Version 1.0.0 &bull; Coming Soon
+            Money Tracker App &copy; 2025<br>
+            Version 1.0.0
         </div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const btn = document.getElementById('downloadBtn');
-            btn.addEventListener('click', (e) => {
-                if (btn.classList.contains('disabled')) {
-                    e.preventDefault();
-                    // Button စာသားကို ခဏပြောင်းပြခြင်း
-                    const originalText = btn.innerHTML;
-                    btn.innerHTML = "မကြာမီ လာမည်...";
-                    setTimeout(() => {
-                        btn.innerHTML = originalText;
-                    }, 2000);
-                }
-            });
-        });
-    </script>
 </body>
 </html>
