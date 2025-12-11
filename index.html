@@ -1,303 +1,169 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="my">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MoneyTracker | SYSTEM ONLINE</title>
+    <title>Money Tracker</title>
     <style>
-        /* --- RESET & BASE --- */
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        /* --- DESIGN TOKENS --- */
+        :root {
+            --bg-color: #f7f7f8; /* မျက်လုံးအေးစေမယ့် မီးခိုးရောင်ဖျော့ */
+            --card-bg: #ffffff;
+            --primary-text: #111111;
+            --secondary-text: #666666;
+            --accent-color: #2D2D2D; /* ခလုတ်အရောင် (Soft Black) */
+            --shadow: 0 20px 40px -10px rgba(0,0,0,0.08); /* သဘာဝကျတဲ့ အရိပ် */
+        }
+
         body {
-            background-color: #000;
-            color: #0ff; /* Neon Cyan */
-            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--primary-text);
             height: 100vh;
-            overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
-            perspective: 1000px; /* 3D အမြင် */
         }
 
-        /* --- BACKGROUND CANVAS --- */
-        #bgCanvas {
-            position: absolute;
-            top: 0;
-            left: 0;
+        /* --- MAIN CARD --- */
+        .card {
+            background-color: var(--card-bg);
             width: 100%;
-            height: 100%;
-            z-index: -2;
-        }
-
-        /* --- VIGNETTE & GRID OVERLAY --- */
-        .overlay {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle, transparent 20%, #000 90%),
-                        linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
-                        linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
-            background-size: 100% 100%, 30px 30px, 30px 30px;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        /* --- 3D CARD CONTAINER --- */
-        .card-container {
-            width: 450px;
-            padding: 40px;
-            background: rgba(10, 10, 20, 0.6);
-            border: 1px solid rgba(0, 255, 255, 0.3);
-            backdrop-filter: blur(10px);
-            border-radius: 10px;
-            box-shadow: 0 0 50px rgba(0, 255, 255, 0.1), inset 0 0 20px rgba(0, 255, 255, 0.05);
-            transform-style: preserve-3d;
-            transform: rotateX(0deg) rotateY(0deg);
-            transition: transform 0.1s ease-out;
-            position: relative;
-        }
-
-        /* --- DECORATIVE CORNERS (HUD STYLE) --- */
-        .corner {
-            position: absolute;
-            width: 20px; height: 20px;
-            border: 2px solid #0ff;
-            transition: all 0.3s ease;
-        }
-        .tl { top: -2px; left: -2px; border-right: none; border-bottom: none; }
-        .tr { top: -2px; right: -2px; border-left: none; border-bottom: none; }
-        .bl { bottom: -2px; left: -2px; border-right: none; border-top: none; }
-        .br { bottom: -2px; right: -2px; border-left: none; border-top: none; }
-
-        .card-container:hover .corner { width: 40px; height: 40px; box-shadow: 0 0 10px #0ff; }
-
-        /* --- CONTENT STYLING --- */
-        .logo-area {
+            max-width: 420px; /* ဖုန်းရော ကွန်ပျူတာပါ ကြည့်ကောင်းမည့် ဆိုဒ် */
+            padding: 60px 40px;
+            border-radius: 30px; /* Modern Rounded Corner */
+            box-shadow: var(--shadow);
             text-align: center;
-            margin-bottom: 20px;
-            transform: translateZ(30px); /* 3D Depth */
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px); /* Mouse တင်ရင် အပေါ်နည်းနည်းကြွသွားမယ် */
+        }
+
+        /* --- LOGO --- */
+        .logo-container {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 30px auto;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
 
         .app-icon {
-            width: 80px;
-            height: 80px;
-            border: 2px solid #0ff;
-            border-radius: 50%;
-            padding: 5px;
-            filter: invert(1) drop-shadow(0 0 10px #0ff);
-            background: #000;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
+        /* --- TYPOGRAPHY --- */
         h1 {
-            font-size: 2.5rem;
-            text-transform: uppercase;
-            text-align: center;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 0px #ff00de; /* Glitch color pink */
-            position: relative;
-            transform: translateZ(50px);
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0 0 10px 0;
+            letter-spacing: -0.5px;
         }
 
-        /* GLITCH ANIMATION */
-        @keyframes glitch {
-            0% { transform: translate(0); }
-            20% { transform: translate(-2px, 2px); }
-            40% { transform: translate(-2px, -2px); }
-            60% { transform: translate(2px, 2px); }
-            80% { transform: translate(2px, -2px); }
-            100% { transform: translate(0); }
-        }
-        h1:hover { animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite; }
-
-        p.status {
-            text-align: center;
-            font-size: 0.8rem;
-            letter-spacing: 2px;
-            color: rgba(0, 255, 255, 0.7);
-            margin-bottom: 40px;
-            transform: translateZ(40px);
-        }
-        
-        .status span { animation: blink 1s infinite; }
-        @keyframes blink { 50% { opacity: 0; } }
-
-        /* --- BUTTON --- */
-        .btn-wrapper {
-            text-align: center;
-            transform: translateZ(60px);
+        p {
+            font-size: 1.05rem;
+            color: var(--secondary-text);
+            line-height: 1.6;
+            margin: 0 0 40px 0;
         }
 
-        .cyber-btn {
-            display: inline-block;
-            padding: 15px 40px;
-            color: #000;
-            background: #0ff;
+        /* --- BUTTON (UNIQUE PILL SHAPE) --- */
+        .download-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--accent-color);
+            color: #ffffff;
             text-decoration: none;
-            font-weight: bold;
-            font-size: 1.2rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            position: relative;
-            clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
-            transition: all 0.3s;
-            cursor: pointer;
+            padding: 18px 30px;
+            border-radius: 50px; /* လုံးဝန်းသော Pill Shape */
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
-        .cyber-btn:hover {
-            background: #fff;
-            box-shadow: 0 0 20px #0ff;
-            text-shadow: 0 0 5px rgba(0,0,0,0.5);
+        .download-btn:hover {
+            background-color: #000000;
+            transform: scale(1.02);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
         }
 
-        .cyber-btn.disabled {
-            background: #333;
-            color: #666;
+        .download-btn.disabled {
+            background-color: #e5e5e5;
+            color: #a0a0a0;
             cursor: not-allowed;
             box-shadow: none;
         }
-
-        /* --- TECH DATA DECORATION --- */
-        .tech-data {
-            position: absolute;
-            font-size: 0.6rem;
-            color: rgba(0, 255, 255, 0.4);
+        
+        .btn-icon {
+            width: 20px;
+            height: 20px;
+            filter: invert(1); /* အမဲ icon ကို အဖြူပြောင်းရန် */
+            margin-right: 10px;
         }
-        .d1 { bottom: 10px; left: 15px; }
-        .d2 { bottom: 10px; right: 15px; text-align: right; }
 
+        /* --- FOOTER --- */
+        .footer {
+            margin-top: 30px;
+            font-size: 0.85rem;
+            color: #ccc;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 480px) {
+            .card {
+                max-width: 90%;
+                padding: 40px 20px;
+            }
+            h1 { font-size: 1.75rem; }
+        }
     </style>
 </head>
 <body>
 
-    <canvas id="bgCanvas"></canvas>
-    
-    <div class="overlay"></div>
-
-    <div class="card-container" id="card">
-        <div class="corner tl"></div>
-        <div class="corner tr"></div>
-        <div class="corner bl"></div>
-        <div class="corner br"></div>
-
-        <div class="logo-area">
-            <img src="icon.jpg" alt="Icon" class="app-icon">
+    <div class="card">
+        <div class="logo-container">
+            <img src="icon.jpg" alt="App Icon" class="app-icon">
         </div>
 
-        <h1 data-text="MONEY_TRACKER">MONEY_TRACKER</h1>
-        <p class="status">SYSTEM STATUS: <span>ONLINE</span> // SECURE</p>
+        <h1>Money Tracker</h1>
+        <p>
+            ငွေကြေးစီမံမှုအတွက် အရိုးရှင်းဆုံးအဖြေ။<br>
+            မြန်ဆန်၊ လုံခြုံပြီး စိတ်ချရသည်။
+        </p>
 
-        <div class="btn-wrapper">
-            <a href="#" id="downloadBtn" class="cyber-btn disabled">
-                Initialize_Download
-            </a>
-        </div>
+        <a href="#" id="downloadBtn" class="download-btn disabled">
+            <img src="icon.jpg" alt="" class="btn-icon">
+            Download for Android
+        </a>
 
-        <div class="tech-data d1">
-            CORE: V.1.0.0<br>
-            ID: 492-AX
-        </div>
-        <div class="tech-data d2">
-            NGWE_MAT_SU<br>
-            ENCRYPTED
+        <div class="footer">
+            Version 1.0.0 &bull; Coming Soon
         </div>
     </div>
 
     <script>
-        // --- 1. PARTICLE BACKGROUND SYSTEM (CANVAS) ---
-        const canvas = document.getElementById('bgCanvas');
-        const ctx = canvas.getContext('2d');
-        let width, height;
-        let particles = [];
-
-        function resize() {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resize);
-        resize();
-
-        class Particle {
-            constructor() {
-                this.x = Math.random() * width;
-                this.y = Math.random() * height;
-                this.vx = (Math.random() - 0.5) * 0.5; // အမြန်နှုန်း
-                this.vy = (Math.random() - 0.5) * 0.5;
-                this.size = Math.random() * 2;
-            }
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-                if (this.x < 0) this.x = width;
-                if (this.x > width) this.x = 0;
-                if (this.y < 0) this.y = height;
-                if (this.y > height) this.y = 0;
-            }
-            draw() {
-                ctx.fillStyle = 'rgba(0, 255, 255, 0.5)';
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
-
-        // Particle အလုံးရေ ၁၀၀ ဖန်တီးမည်
-        for (let i = 0; i < 100; i++) particles.push(new Particle());
-
-        function animateParticles() {
-            ctx.clearRect(0, 0, width, height);
-            particles.forEach(p => {
-                p.update();
-                p.draw();
-            });
-            // မျဉ်းကြောင်း ဆွဲခြင်း (Connection Lines)
-            ctx.strokeStyle = 'rgba(0, 255, 255, 0.05)';
-            for (let i = 0; i < particles.length; i++) {
-                for (let j = i; j < particles.length; j++) {
-                    const dx = particles[i].x - particles[j].x;
-                    const dy = particles[i].y - particles[j].y;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-                    if (dist < 100) {
-                        ctx.beginPath();
-                        ctx.moveTo(particles[i].x, particles[i].y);
-                        ctx.lineTo(particles[j].x, particles[j].y);
-                        ctx.stroke();
-                    }
+        document.addEventListener('DOMContentLoaded', () => {
+            const btn = document.getElementById('downloadBtn');
+            btn.addEventListener('click', (e) => {
+                if (btn.classList.contains('disabled')) {
+                    e.preventDefault();
+                    // Button စာသားကို ခဏပြောင်းပြခြင်း
+                    const originalText = btn.innerHTML;
+                    btn.innerHTML = "မကြာမီ လာမည်...";
+                    setTimeout(() => {
+                        btn.innerHTML = originalText;
+                    }, 2000);
                 }
-            }
-            requestAnimationFrame(animateParticles);
-        }
-        animateParticles();
-
-
-        // --- 2. 3D TILT EFFECT (MOUSE INTERACTION) ---
-        const card = document.getElementById('card');
-        
-        document.addEventListener('mousemove', (e) => {
-            const xAxis = (window.innerWidth / 2 - e.pageX) / 25; // လှည့်မယ့် ဒီဂရီ ညှိရန်
-            const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
-            
-            card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
-        });
-
-        // Mouse ဖယ်လိုက်ရင် မူလနေရာပြန်ထားရန်
-        document.addEventListener('mouseleave', () => {
-            card.style.transform = `rotateY(0deg) rotateX(0deg)`;
-        });
-
-
-        // --- 3. DOWNLOAD BUTTON LOGIC ---
-        const btn = document.getElementById('downloadBtn');
-        btn.addEventListener('click', (e) => {
-            if (btn.classList.contains('disabled')) {
-                e.preventDefault();
-                btn.innerHTML = "ACCESS_DENIED // WAIT";
-                btn.style.backgroundColor = "#ff0055"; // Red Error
-                btn.style.color = "#fff";
-                setTimeout(() => {
-                    btn.innerHTML = "Initialize_Download";
-                    btn.style.backgroundColor = "";
-                    btn.style.color = "";
-                }, 1500);
-            }
+            });
         });
     </script>
 </body>
